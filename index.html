@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLUXDAMP — L'amortisseur hybride</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="logo">FLUXDAMP</div>
+    <nav class="main-nav">
+      <a href="#fonctionnement">Fonctionnement</a>
+      <a href="#comparatif">Comparatif</a>
+      <a href="#specs">Fiche technique</a>
+      <a href="#applications">Applications</a>
+    </nav>
+    <a href="#contact" class="btn btn-ghost">Demander un essai</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <p class="tag">Amortisseur hybride hydraulique / électromagnétique</p>
+        <h1>Un amortisseur qui recalcule sa fermeté à chaque milliseconde.</h1>
+        <p class="hero-lead">
+          FLUXDAMP combine une colonne hydraulique classique et un actionneur électromagnétique piloté en temps réel. Résultat : le confort d'un amortisseur souple et la précision d'un amortisseur sport, sans compromis figé à l'usine.
+        </p>
+        <div class="hero-actions">
+          <a href="#specs" class="btn btn-primary">Voir la fiche technique</a>
+          <a href="#fonctionnement" class="btn btn-text">Comment ça fonctionne ↓</a>
+        </div>
+      </div>
+
+      <div class="hero-diagram">
+        <div class="diagram-frame">
+          <span class="corner corner-tl"></span>
+          <span class="corner corner-tr"></span>
+          <span class="corner corner-bl"></span>
+          <span class="corner corner-br"></span>
+          <svg id="damper-svg" viewBox="0 0 360 460" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer cylinder body -->
+            <rect x="90" y="60" width="180" height="340" rx="14" fill="none" stroke="#3A4150" stroke-width="2"/>
+
+            <!-- Chamber fill (hydraulic fluid) -->
+            <clipPath id="chamberClip">
+              <rect x="98" y="68" width="164" height="324" rx="8"/>
+            </clipPath>
+            <rect id="fluid" x="98" y="180" width="164" height="212" fill="#C4703B" fill-opacity="0.14" clip-path="url(#chamberClip)"/>
+
+            <!-- Fluid flow lines -->
+            <g id="flow-lines" stroke="#C4703B" stroke-width="1.4" fill="none" opacity="0.55">
+              <path d="M114 250 Q180 240 246 250" />
+              <path d="M114 290 Q180 280 246 290" />
+              <path d="M114 330 Q180 320 246 330" />
+            </g>
+
+            <!-- Piston rod -->
+            <rect id="rod" x="172" y="20" width="16" height="140" fill="#5B6373"/>
+            <!-- Piston head -->
+            <rect id="piston" x="120" y="150" width="120" height="24" rx="4" fill="#8A93A3"/>
+
+            <!-- Coil spring (mechanical) -->
+            <path id="spring" d="M 90 130
+              L 110 130 L 70 148 L 110 166 L 70 184 L 110 202 L 70 220 L 110 238 L 70 256 L 110 274 L 70 292 L 110 310 L 90 310"
+              fill="none" stroke="#C4703B" stroke-width="3" stroke-linecap="round"/>
+
+            <!-- Electromagnetic coil (electronic actuator) -->
+            <g id="em-coil">
+              <rect x="270" y="130" width="20" height="180" rx="6" fill="none" stroke="#4FD8C4" stroke-width="2"/>
+              <path d="M270 140 h20 M270 160 h20 M270 180 h20 M270 200 h20 M270 220 h20 M270 240 h20 M270 260 h20 M270 280 h20 M270 300 h20"
+                stroke="#4FD8C4" stroke-width="1.4" opacity="0.6"/>
+            </g>
+            <circle id="em-glow" cx="280" cy="220" r="0" fill="#4FD8C4" opacity="0.25"/>
+
+            <!-- Base mount -->
+            <rect x="130" y="392" width="100" height="18" rx="4" fill="#3A4150"/>
+            <rect x="150" y="410" width="60" height="14" rx="3" fill="#2A2F38" stroke="#3A4150"/>
+
+            <!-- Annotation labels -->
+            <text x="20" y="200" class="svg-label">FLUIDE</text>
+            <text x="20" y="216" class="svg-label-sub">hydraulique</text>
+            <text x="296" y="220" class="svg-label">BOBINE</text>
+            <text x="296" y="236" class="svg-label-sub">électromagnétique</text>
+          </svg>
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-row">
+            <span>Confort</span>
+            <input type="range" id="mode-slider" min="0" max="100" value="30">
+            <span>Sport</span>
+          </div>
+          <p class="slider-readout" id="slider-readout">Réponse électromagnétique : 30 % — amorti souple, absorption maximale des micro-aspérités.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FONCTIONNEMENT -->
+  <section id="fonctionnement" class="section steps-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Deux systèmes, une seule tige de piston.</h2>
+        <p class="section-sub">La partie hydraulique absorbe l'énergie mécanique brute. La bobine électromagnétique ajuste la résistance du fluide en continu, 1000 fois par seconde.</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="step-index">01</span>
+          <h3>Compression</h3>
+          <p>La roue rencontre un obstacle. La tige de piston s'enfonce dans la chambre et pousse le fluide à travers les orifices de calibrage.</p>
+        </li>
+        <li class="step">
+          <span class="step-index">02</span>
+          <h3>Lecture du capteur</h3>
+          <p>Un capteur de position et un accéléromètre mesurent la vitesse de compression et l'inclinaison du châssis en continu.</p>
+        </li>
+        <li class="step">
+          <span class="step-index">03</span>
+          <h3>Champ électromagnétique</h3>
+          <p>Le contrôleur ajuste le courant dans la bobine, modifiant la viscosité effective du fluide en quelques millisecondes.</p>
+        </li>
+        <li class="step">
+          <span class="step-index">04</span>
+          <h3>Restitution</h3>
+          <p>Le ressort mécanique renvoie l'énergie stockée pendant que l'amorti électromagnétique freine le rebond pour éviter tout rebond brutal.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- COMPARATIF -->
+  <section id="comparatif" class="section compare-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Face à un amortisseur hydraulique classique.</h2>
+      </div>
+
+      <div class="compare-table" role="table">
+        <div class="compare-row compare-header" role="row">
+          <div class="compare-cell compare-cell-label" role="columnheader"></div>
+          <div class="compare-cell" role="columnheader">Hydraulique classique</div>
+          <div class="compare-cell compare-cell-highlight" role="columnheader">FLUXDAMP hybride</div>
+        </div>
+
+        <div class="compare-row" role="row">
+          <div class="compare-cell compare-cell-label" role="rowheader">Réglage</div>
+          <div class="compare-cell">Fixe, choisi à l'installation</div>
+          <div class="compare-cell compare-cell-highlight">Ajusté en continu, en roulant</div>
+        </div>
+        <div class="compare-row" role="row">
+          <div class="compare-cell compare-cell-label" role="rowheader">Temps de réponse</div>
+          <div class="compare-cell">Aucune adaptation active</div>
+          <div class="compare-cell compare-cell-highlight">&lt; 5 ms par cycle</div>
+        </div>
+        <div class="compare-row" role="row">
+          <div class="compare-cell compare-cell-label" role="rowheader">Usure</div>
+          <div class="compare-cell">Joints sollicités de façon uniforme</div>
+          <div class="compare-cell compare-cell-highlight">Charge répartie selon le terrain détecté</div>
+        </div>
+        <div class="compare-row" role="row">
+          <div class="compare-cell compare-cell-label" role="rowheader">Entretien</div>
+          <div class="compare-cell">Vidange du fluide périodique</div>
+          <div class="compare-cell compare-cell-highlight">Vidange + diagnostic électronique embarqué</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+  <section id="specs" class="section specs-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Fiche technique</h2>
+        <p class="section-sub">Valeurs mesurées sur le modèle FLUXDAMP-R2, configuration véhicule léger.</p>
+      </div>
+
+      <div class="specs-grid">
+        <div class="spec-item">
+          <span class="spec-value">1000 Hz</span>
+          <span class="spec-label">Fréquence d'ajustement du champ</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">±40 %</span>
+          <span class="spec-label">Plage de variation de l'amortissement</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">120 mm</span>
+          <span class="spec-label">Course de compression</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">14 W</span>
+          <span class="spec-label">Consommation électrique moyenne</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">-30° / 90°C</span>
+          <span class="spec-label">Plage de température de service</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-value">IP67</span>
+          <span class="spec-label">Étanchéité du module de contrôle</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section id="applications" class="section applications-section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Un même principe, trois terrains.</h2>
+      </div>
+
+      <div class="app-list">
+        <div class="app-row">
+          <h3>Automobile</h3>
+          <p>Suspension pilotée pour berlines et SUV, avec bascule automatique entre mode confort autoroute et mode ferme en virage.</p>
+        </div>
+        <div class="app-row">
+          <h3>Deux-roues</h3>
+          <p>Fourche et mono-amortisseur hybrides pour motos routières, avec recalibrage instantané selon la charge et l'angle d'inclinaison.</p>
+        </div>
+        <div class="app-row">
+          <h3>Machines industrielles</h3>
+          <p>Isolation vibratoire adaptative pour bras robotisés et lignes de production soumises à des charges variables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
+    <div class="wrap contact-inner">
+      <h2>Essayer FLUXDAMP sur votre châssis.</h2>
+      <p class="section-sub">Nos ingénieurs adaptent le calibrage électromagnétique à votre cahier des charges avant tout engagement.</p>
+      <a href="mailto:contact@fluxdamp.example" class="btn btn-primary">Demander un essai technique</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>FLUXDAMP</span>
+    <span>Amortisseurs hybrides hydrauliques / électromagnétiques</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
